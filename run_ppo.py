@@ -73,7 +73,7 @@ def run_ppo(env_id, robot, train_iters, eval_interval, save_file, config=None, d
 
             now = time.time()
             log_std = policy.log_std.mean()
-            print(f'iteration: {iter+1:=5}  elapsed times: {now-interval:.3f}  reward: {reward:6.3f}  log_std: {log_std:.5f}')
+            # print(f'iteration: {iter+1:=5}  elapsed times: {now-interval:.3f}  reward: {reward:6.3f}  log_std: {log_std:.5f}')
 
     del train_envs
     del eval_envs
