@@ -19,8 +19,8 @@ def get_args():
     )
     parser.add_argument(
         '-s', '--shape',
-        default=[5,5], nargs='+', type=int,
-        help='robot shape (default: (5,5), useage: "--shape {height} {width}")'
+        default=[6,6], nargs='+', type=int,
+        help='robot shape (default: (6,6), useage: "--shape {height} {width}")'
     )
 
     parser.add_argument(

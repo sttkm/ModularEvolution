@@ -20,6 +20,13 @@ from evaluator import ppoConfig, EvogymStructureEvaluator, EvogymStructureConstr
 import evogym.envs
 from evogym import is_connected, has_actuator, hashable, get_full_connectivity
 
+
+def clean_robot(robot):
+    reduce_h = np.nonzero(np.any(robot > 0, axis=1))[0]
+    reduce_w = np.nonzero(np.any(robot > 0, axis=0))[0]
+    robot = robot[reduce_h[0]: reduce_h[-1] + 1, reduce_w[0]: reduce_w[-1] + 1]
+    return robot
+
 class EvogymStructureDecoder:
     def __init__(self, size):
         self.size = size
@@ -46,6 +53,7 @@ class EvogymStructureDecoder:
 
         body = np.reshape(material, self.size)
         body[body>1] = body[body>1] + 1
+        body = clean_robot(body)
         connections = get_full_connectivity(body)
         return (body, connections)
 

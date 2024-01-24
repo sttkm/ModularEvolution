@@ -35,13 +35,18 @@ class EvogymStructureEvaluator:
         os.makedirs(self.robot_save_path, exist_ok=True)
         os.makedirs(self.controller_save_path, exist_ok=True)
 
-    def evaluate_structure(self, key, robot, generation):
+    def evaluate_structure(self, key, robot, generation=None):
+
+        if type(robot) is not tuple:
+            if not is_connected(robot):
+                return -1
+            robot = (robot, get_full_connectivity(robot))
 
         file_robot = os.path.join(self.robot_save_path, f'{key}')
         file_controller = os.path.join(self.controller_save_path, f'{key}')
         np.savez(file_robot, *robot)
 
-        fitness = run_ppo(
+        reward = run_ppo(
             env_id=self.env_id,
             robot=robot,
             train_iters=self.ppo_iters,
@@ -51,13 +56,14 @@ class EvogymStructureEvaluator:
             deterministic=self.deterministic
         )
 
-        results = {
-            'fitness': fitness,
-        }
-        return results
+        return reward
     
 
 from evogym import is_connected, has_actuator, hashable, get_full_connectivity
+
+def to_hash(robot):
+    hash = ",".join(["".join(map(str, c)) for c in robot])
+    return hash
 
 class EvogymStructureConstraint:
     def __init__(self, decode_function):
@@ -66,19 +72,21 @@ class EvogymStructureConstraint:
         self.hashes_tmp = {}
 
     def has_actuator(self, body):
+        voxel_count = np.sum(body > 0)
         actuator_count = np.sum(body>=3)
-        return actuator_count >= 5
+        density = actuator_count / voxel_count
+        return density > 0.3
 
     def check_density(self, body):
         voxel_count = np.sum(body>0)
-        return voxel_count >= 5
+        return voxel_count >= 8
 
     def eval_constraint(self, genome, config, *args):
         robot = self.decode_function(genome, config)
         body,_ = robot
         validity = is_connected(body) and self.has_actuator(body) and self.check_density(body)
         if validity:
-            robot_hash = hashable(body)
+            robot_hash = to_hash(body)
             if robot_hash in self.hashes or robot_hash in self.hashes_tmp:
                 validity = False
             else:
