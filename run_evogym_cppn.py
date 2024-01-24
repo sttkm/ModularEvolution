@@ -27,7 +27,7 @@ def clean_robot(robot):
     if len(reduce_h) > 0:
         robot = robot[reduce_h[0]: reduce_h[-1] + 1]
     if len(reduce_w) > 0:
-        robot = robot[reduce_w[0]: reduce_w[-1] + 1]
+        robot = robot[:, reduce_w[0]: reduce_w[-1] + 1]
 
     return robot
 
