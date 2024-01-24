@@ -62,7 +62,7 @@ class EvogymStructureEvaluator:
 from evogym import is_connected, has_actuator, hashable, get_full_connectivity
 
 def to_hash(robot):
-    hash = ",".join(["".join(map(str, int(c))) for c in robot])
+    hash = ",".join(["".join(map(lambda z: str(int(z)), c)) for c in robot])
     return hash
 
 class EvogymStructureConstraint:
