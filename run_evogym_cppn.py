@@ -25,6 +25,12 @@ def clean_robot(robot):
     reduce_h = np.nonzero(np.any(robot > 0, axis=1))[0]
     reduce_w = np.nonzero(np.any(robot > 0, axis=0))[0]
     robot = robot[reduce_h[0]: reduce_h[-1] + 1, reduce_w[0]: reduce_w[-1] + 1]
+    if len(reduce_h) == 0 and len(reduce_w) == 0:
+        robot = np.zeros((1, 1), dtype=int)
+    elif len(reduce_h) == 0:
+        robot = np.expand_dims(robot, axis=0)
+    elif len(reduce_w == 0):
+        robot = np.expand_dims(robot, axis=1)
     return robot
 
 class EvogymStructureDecoder:
@@ -54,8 +60,6 @@ class EvogymStructureDecoder:
         body = np.reshape(material, self.size)
         body[body>1] = body[body>1] + 1
         body = clean_robot(body)
-        if len(body) == 0:
-            body = np.zeros((1, 1), dtype="int")
         connections = get_full_connectivity(body)
         return (body, connections)
 
