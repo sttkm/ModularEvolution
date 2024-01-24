@@ -54,6 +54,8 @@ class EvogymStructureDecoder:
         body = np.reshape(material, self.size)
         body[body>1] = body[body>1] + 1
         body = clean_robot(body)
+        if len(body) == 0:
+            body = np.zeros((1, 1), dtype="int")
         connections = get_full_connectivity(body)
         return (body, connections)
 
