@@ -83,6 +83,7 @@ class Population:
             k += 1
 
             self.reporters.start_generation(self.generation)
+            max_key = max(self.population.keys())
 
             # Evaluate all genomes using the user-provided function.
             fitness_function(self.population, self.config, self.generation)
@@ -132,7 +133,6 @@ class Population:
             self.reporters.end_generation(self.config, self.population, self.species)
 
             if max_evaluation is not None:
-                max_key = max(self.population.keys())
                 if max_key > max_evaluation:
                     break
 
