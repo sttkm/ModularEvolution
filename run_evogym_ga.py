@@ -83,7 +83,7 @@ class RobotGenome:
 
     def mutate(self, key):
         new_robot = mutate_robot(self.robot)
-        child = RobotGenome(self, key, parent=self.key, robot=new_robot)
+        child = RobotGenome(key, parent=self.key, robot=new_robot)
         return child
 
 
