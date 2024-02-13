@@ -41,9 +41,11 @@ class EvaluatorParallel:
     def evaluate(self, genomes, config, generation):
 
         size = len(genomes)
+        if config is not None:
+            config = config.genome_config
 
         if self.parallel:
-            phenomes = {key: self.decode_function(genome, config.genome_config) for key,genome in genomes.items()}
+            phenomes = {key: self.decode_function(genome, config) for key,genome in genomes.items()}
 
             jobs = {}
             for key,phenome in phenomes.items():
@@ -70,7 +72,7 @@ class EvaluatorParallel:
 
         else:
             for i,(key,genome) in enumerate(genomes.items()):
-                phenome = self.decode_function(genome, config.genome_config)
+                phenome = self.decode_function(genome, config)
                 if self.print_progress:
                     print(f'\revaluating genomes ... {i: =4}/{size: =4}', end='')
 

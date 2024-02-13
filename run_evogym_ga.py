@@ -35,9 +35,12 @@ def get_random_robot(size):
     pd = np.array([9, 4, 4, 4])
     pd = pd / pd.sum()
     invalid = True
+    i = 0
     while invalid:
+        print(i)
         robot = np.random.choice([0, 1, 3, 4], size, p=pd)
-        invalid = not (is_connected(robot) and has_actuator(robot))
+        invalid = not (has_actuator(robot) and is_connected(robot))
+        i += 1
 
     robot = clean_robot(robot)
     return robot
@@ -135,7 +138,7 @@ def run_ga(generation, pop_size, child_size, fitness_function, max_evaluation, s
                 while not valid:
                     robot = RobotGenome(key)
                     robot.initialize()
-                    constraint.eval_constraint(robot, None)
+                    valid = constraint.eval_constraint(robot, None)
                 children[key] = robot
         else:
             for _ in range(child_size):
@@ -223,7 +226,7 @@ def main():
         parallel=False
     )
 
-    run_ga(args.generation, args.pop_size, args.child_size, parallel.evaluate_function, args.max_evaluation, save_path, constraint, resume=args.resume)
+    run_ga(args.generation, args.pop_size, args.child_size, parallel.evaluate, args.max_evaluation, save_path, constraint, resume=args.resume)
 
 if __name__=='__main__':
     main()
