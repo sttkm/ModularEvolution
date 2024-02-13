@@ -143,7 +143,7 @@ def run_ga(generation, pop_size, child_size, fitness_function, max_evaluation, s
                 parent_key = np.random.choice(current_keys)
                 valid = False
                 while not valid:
-                    child = population[parent_key].reproduce(key)
+                    child = population[parent_key].mutate(key)
                     valid = constraint.eval_constraint(child, None)
                 children[key] = child
 
