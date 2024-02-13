@@ -35,12 +35,9 @@ def get_random_robot(size):
     pd = np.array([9, 4, 4, 4])
     pd = pd / pd.sum()
     invalid = True
-    # i = 0
     while invalid:
-        # print(i)
         robot = np.random.choice([0, 1, 3, 4], size, p=pd)
         invalid = not (has_actuator(robot) and is_connected(robot))
-        # i += 1
 
     robot = clean_robot(robot)
     return robot
@@ -169,7 +166,7 @@ def run_ga(generation, pop_size, child_size, fitness_function, max_evaluation, s
                 best_robot_key = key
                 best_robot_hash = hash
                 best_fitness = fitness
-            history.loc[len(history)] = [g, key, fitness, robot.parent]
+            history.loc[len(history)] = [g, key, hash, fitness, robot.parent]
 
             print(f"key: {key: =4}  robot: [" + hash.rjust(42) + f"]  fitness: {fitness: =+6.2f}")
 
@@ -189,7 +186,7 @@ def run_ga(generation, pop_size, child_size, fitness_function, max_evaluation, s
 
 
         print()
-        history = history.astype(dtype={"generation": "int64", "key": "int64", "fitness": "float64", "parent": "int64"})
+        history = history.astype(dtype={"generation": "int64", "key": "int64", "hash": "object", "reward": "float64", "parent": "int64"})
         history.to_csv(history_file)
         with open(population_file, "wb") as f:
             pickle.dump(population, f)
