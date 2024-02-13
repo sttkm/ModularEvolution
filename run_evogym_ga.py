@@ -220,9 +220,10 @@ def main():
         num_workers=args.num_cores,
         evaluate_function=evaluate_function,
         decode_function=decode,
+        parallel=False
     )
 
-    run_ga(args.generation, args.pop_size, args.child_size, parallel.evaluate_function, args.max_evaluation, save_path, constraint)
+    run_ga(args.generation, args.pop_size, args.child_size, parallel.evaluate_function, args.max_evaluation, save_path, constraint, resume=args.resume)
 
 if __name__=='__main__':
     main()
