@@ -35,12 +35,12 @@ def get_random_robot(size):
     pd = np.array([9, 4, 4, 4])
     pd = pd / pd.sum()
     invalid = True
-    i = 0
+    # i = 0
     while invalid:
-        print(i)
+        # print(i)
         robot = np.random.choice([0, 1, 3, 4], size, p=pd)
         invalid = not (has_actuator(robot) and is_connected(robot))
-        i += 1
+        # i += 1
 
     robot = clean_robot(robot)
     return robot
@@ -223,7 +223,7 @@ def main():
         num_workers=args.num_cores,
         evaluate_function=evaluate_function,
         decode_function=decode,
-        parallel=False
+        # parallel=False
     )
 
     run_ga(args.generation, args.pop_size, args.child_size, parallel.evaluate, args.max_evaluation, save_path, constraint, resume=args.resume)
