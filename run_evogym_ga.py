@@ -34,7 +34,7 @@ def get_random_robot(size):
     # pd = np.array([0.6, 0.2, 0.2, 0.2])
     pd = np.array([9, 4, 4, 4])
     pd = pd / pd.sum()
-    invalid = False
+    invalid = True
     while invalid:
         robot = np.random.choice([0, 1, 3, 4], size, p=pd)
         invalid = not (is_connected(robot) and has_actuator(robot))
