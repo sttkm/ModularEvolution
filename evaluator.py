@@ -1,5 +1,6 @@
 import os
 
+import pickle
 import numpy as np
 
 from run_ppo import run_ppo
@@ -22,7 +23,7 @@ class ppoConfig:
         self.init_log_std = 0.0
 
 class EvogymStructureEvaluator:
-    def __init__(self, env_id, save_path, ppo_iters, eval_interval, ppo_config, deterministic=True):
+    def __init__(self, env_id, save_path, ppo_iters, eval_interval, ppo_config, deterministic=True, resume=False):
         self.env_id = env_id
         self.save_path = save_path
         self.robot_save_path = os.path.join(save_path, 'robot')
@@ -32,8 +33,9 @@ class EvogymStructureEvaluator:
         self.ppo_config = ppo_config
         self.deterministic = deterministic
 
-        os.makedirs(self.robot_save_path, exist_ok=True)
-        os.makedirs(self.controller_save_path, exist_ok=True)
+        if not resume:
+            os.makedirs(self.robot_save_path, exist_ok=True)
+            os.makedirs(self.controller_save_path, exist_ok=True)
 
     def evaluate_structure(self, key, robot, generation=None):
 
@@ -69,7 +71,6 @@ class EvogymStructureConstraint:
     def __init__(self, decode_function):
         self.decode_function = decode_function
         self.hashes = {}
-        self.hashes_tmp = {}
 
     def has_actuator(self, body):
         voxel_count = np.sum(body > 0)
@@ -87,9 +88,17 @@ class EvogymStructureConstraint:
         validity = is_connected(body) and self.has_actuator(body) and self.check_density(body)
         if validity:
             robot_hash = to_hash(body)
-            if robot_hash in self.hashes or robot_hash in self.hashes_tmp:
+            if robot_hash in self.hashes:
                 validity = False
             else:
                 self.hashes[robot_hash] = True
 
         return validity
+    
+    def save_hashes(self, file):
+        with open(file, "wb") as f:
+            pickle.dump(self.hashes, f)
+
+    def load_hashes(self, file):
+        with open(file, "rb") as f:
+            self.hashes = pickle.load(f)
