@@ -173,7 +173,6 @@ def run_ga(generation, pop_size, child_size, fitness_function, max_evaluation, s
 
         print()
         # update population
-        evaluation += len(children)
         new_keys = list(children.keys())
         population.update(children)
         population = dict(sorted(population.items(), key=lambda z: z[1].fitness)[-pop_size:])
@@ -181,8 +180,8 @@ def run_ga(generation, pop_size, child_size, fitness_function, max_evaluation, s
         drop_keys = sorted(list(set(current_keys) - set(next_keys)))
         survived_keys = sorted(list(set(next_keys) & set(new_keys)))
         print("replacement")
-        print("news : [" + ", ".join([f"{k: =4}" for k in survived_keys]))
-        print("drops: [" + ", ".join([f"{k: =4}" for k in drop_keys]))
+        print("news : [" + ", ".join([f"{k: =4}" for k in survived_keys]) + "]")
+        print("drops: [" + ", ".join([f"{k: =4}" for k in drop_keys]) + "]")
 
 
         print()
