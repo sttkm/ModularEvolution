@@ -119,7 +119,7 @@ def run_ga(generation, pop_size, child_size, fitness_function, max_evaluation, s
     
     while g < generation and evaluation < max_evaluation:
         iter_start_time = time.time()
-        print("*" * 20 + f"  Generation {iter: =4}  " + "*" * 20)
+        print("*" * 20 + f"  Generation {g: =4}  " + "*" * 20)
         print()
         current_keys = list(population.keys())
 
