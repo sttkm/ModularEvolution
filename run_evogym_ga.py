@@ -62,7 +62,7 @@ def mutate_robot(robot, size_limit=(5, 5)):
 
 
 
-def decode(robot_genome, **args):
+def decode(robot_genome, args):
     return robot_genome.robot
 
 def to_hash(robot):
