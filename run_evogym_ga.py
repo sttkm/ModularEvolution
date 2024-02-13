@@ -133,7 +133,7 @@ def run_ga(generation, pop_size, child_size, fitness_function, max_evaluation, s
                 while not valid:
                     robot = RobotGenome(key)
                     robot.initialize()
-                    constraint.eval_constraint(robot.robot, None)
+                    constraint.eval_constraint(robot, None)
                 children[key] = robot
         else:
             for _ in range(child_size):
@@ -142,7 +142,7 @@ def run_ga(generation, pop_size, child_size, fitness_function, max_evaluation, s
                 valid = False
                 while not valid:
                     child = population[parent_key].reproduce(key)
-                    valid = constraint.eval_constraint(child.robot, None)
+                    valid = constraint.eval_constraint(child, None)
                 children[key] = child
 
 
