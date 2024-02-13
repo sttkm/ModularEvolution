@@ -77,7 +77,7 @@ class RobotGenome:
         self.fitness = None
 
     def initialize(self):
-        self.robot = get_random_robot()
+        self.robot = get_random_robot((5, 5))
 
     def mutate(self, key):
         new_robot = mutate_robot(self.robot)
