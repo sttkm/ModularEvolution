@@ -217,6 +217,7 @@ def main():
     parallel = EvaluatorParallel(
         num_workers=args.num_cores,
         evaluate_function=evaluate_function,
+        decode_function=decode,
     )
 
     run_ga(args.generation, args.pop_size, args.child_size, parallel.evaluate_function, args.max_evaluation, save_path, constraint)
