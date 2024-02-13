@@ -19,7 +19,7 @@ from experiment_utils import initialize_experiment
 from evaluator import ppoConfig, EvogymStructureEvaluator, EvogymStructureConstraint
 
 import evogym.envs
-from evogym import is_connected, has_actuator
+from evogym import is_connected, has_actuator, get_full_connectivity
 
 
 
@@ -63,7 +63,9 @@ def mutate_robot(robot, size_limit=(5, 5)):
 
 
 def decode(robot_genome, args):
-    return robot_genome.robot
+    body = robot_genome.robot
+    connections = get_full_connectivity(body)
+    return body, connections
 
 def to_hash(robot):
     hash = ",".join(["".join(map(str, c)) for c in robot])
