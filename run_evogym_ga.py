@@ -102,7 +102,7 @@ def run_ga(generation, pop_size, child_size, fitness_function, max_evaluation, s
         best_robot_hash = history["hash"][np.argmax(history["reward"])]
 
         indexer = itertools.count(history["key"].max() + 1)
-        with open(population, "rb") as f:
+        with open(population_file, "rb") as f:
             population = pickle.load(f)
         constraint.load_hashes(constraint_file)
 
