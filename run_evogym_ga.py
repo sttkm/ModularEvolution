@@ -206,7 +206,8 @@ def main():
 
     save_path = os.path.join('out', 'evogym_ga', f'{args.name}')
 
-    initialize_experiment(args.name, save_path, args)
+    if not args.resume:
+        initialize_experiment(args.name, save_path, args)
 
     constraint = EvogymStructureConstraint(decode)
 
