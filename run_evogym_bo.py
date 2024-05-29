@@ -26,7 +26,7 @@ from evaluator import ppoConfig, EvogymStructureEvaluator
 
 import evogym.envs
 
-from sample_robot2 import Robot
+# from sample_robot2 import Robot
 
 
 
