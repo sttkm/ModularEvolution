@@ -38,6 +38,11 @@ def get_args():
         default=32, type=int,
         help='frequency to evaluate policy (default: 20)'
     )
+    parser.add_argument(
+        "--resume",
+        action='store_true', default=False,
+        help=""
+    )
 
     parser.add_argument(
         '-c', '--num-cores',
