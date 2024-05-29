@@ -26,14 +26,7 @@ from evaluator import ppoConfig, EvogymStructureEvaluator
 
 import evogym.envs
 
-
-class Robot:
-    def __init__(self, key, robot, module_num, module_map):
-        self.key = key
-        self.robot = robot
-        self.module_num = module_num
-        self.module_map = module_map
-# from sample_robot2 import Robot
+from sample_robot2 import Robot
 
 
 
